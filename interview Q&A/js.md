@@ -2,33 +2,35 @@
 
 - [js](#js)
     - [1. let, var, const 的区别](#1-let-var-const-的区别)
-    - [2. typeof 和 instanceof 的区别](#2-typeof-和-instanceof-的区别)
-    - [3. this 指向](#3-this-指向)
-    - [4. 闭包](#4-闭包)
-    - [5.for in, for of, forEach 用法和区别](#5for-in-for-of-foreach-用法和区别)
-    - [6.浅拷贝和深拷贝](#6浅拷贝和深拷贝)
-    - [7.原型](#7原型)
-    - [8.继承](#8继承)
-    - [9.AMD和CMD](#9amd和cmd)
-    - [10.setTimeout, setInterval, requestAnimationFrame](#10settimeout-setinterval-requestanimationframe)
-    - [11.宏任务/微任务](#11宏任务微任务)
-    - [12.浏览器存储](#12浏览器存储)
-    - [13.重绘和回流](#13重绘和回流)
-    - [14.伪数组转真数组](#14伪数组转真数组)
-    - [15.throttle节流](#15throttle节流)
-    - [16.debounce防抖](#16debounce防抖)
-    - [17.移动端1px](#17移动端1px)
-    - [18.Object.seal() 和 Object.freeze()](#18objectseal-和-objectfreeze)
-    - [19.class](#19class)
-    - [20.Promise](#20promise)
-    - [21.数组找最大值](#21数组找最大值)
-    - [22.数组去重](#22数组去重)
-    - [23.event loop](#23event-loop)
+        - [2. typeof 和 instanceof 的区别](#2-typeof-和-instanceof-的区别)
+        - [3. this 指向](#3-this-指向)
+        - [4. 闭包](#4-闭包)
+        - [5.for in, for of, forEach 用法和区别](#5for-in-for-of-foreach-用法和区别)
+        - [6.浅拷贝和深拷贝](#6浅拷贝和深拷贝)
+        - [7.原型](#7原型)
+        - [8.继承](#8继承)
+        - [9.AMD 和 CMD](#9amd-和-cmd)
+        - [10.setTimeout, setInterval, requestAnimationFrame](#10settimeout-setinterval-requestanimationframe)
+        - [11.宏任务/微任务](#11宏任务微任务)
+        - [12.浏览器存储](#12浏览器存储)
+        - [13.重绘和回流](#13重绘和回流)
+        - [14.伪数组转真数组](#14伪数组转真数组)
+        - [15.throttle 节流](#15throttle-节流)
+        - [16.debounce 防抖](#16debounce-防抖)
+        - [17.移动端 1px](#17移动端-1px)
+        - [18.Object.seal() 和 Object.freeze()](#18objectseal-和-objectfreeze)
+        - [19.class](#19class)
+        - [20.Promise](#20promise)
+        - [21.数组找最大值](#21数组找最大值)
+        - [22.数组去重](#22数组去重)
+        - [23.event loop](#23event-loop)
+        - [24.路由、组件懒加载](#24路由组件懒加载)
 
 <!-- /TOC -->
 # js
 
-### 1. let, var, const 的区别
+## 1. let, var, const 的区别
+
 ```js
 1.块级作用域 -- let const
     块级作用域解决了es5的两个问题：
@@ -47,6 +49,7 @@
 7.指针指向 -- const
     let创建的变量可以更改指针指向（重新赋值），const声明的变量不允许改变指针指向（const用来声明常量->引用数据类型可以重新赋值，因为引用的是地址）
 ```
+
 ### 2. typeof 和 instanceof 的区别
 
 ```js
@@ -55,7 +58,9 @@ typeof 可以用来判断原始类型，除了null
 instanceof 通过原型链的方式判断数据类型
     可以正确判断对象数据类型，但无法准确判断原始数据类型
 ```
+
 ### 3. this 指向
+
 ```js
 1. 箭头函数：this指向的是外层作用域this的值，且不会被改变（包裹它的第一个原始函数）
 let obj = {
@@ -67,7 +72,7 @@ let obj = {
     }
 }
 obj.a() // this指向的是obj （对象内部方法的this指向调用这些方法的对象，即最近的对象）
-obj.b() // this指向的是window 
+obj.b() // this指向的是window
 //-------------------------------------------------------
 2. 普通函数的this指向取决于函数如何被调用
    new => this指向构造函数下创建的实例
@@ -77,7 +82,7 @@ obj.b() // this指向的是window 
 //例1.
 var length = 1
 function fn(){
-    console.log(this.length)  // this.length => lists.length 
+    console.log(this.length)  // this.length => lists.length
 }
 var lists = [fn, 2, 3, 4]
 lists[0]() // fn() 有调用者，调用者是lists => 4
@@ -93,8 +98,8 @@ function fn(){
 var obj = {
     length:100,
     action:function(callback){
-        callback()      // callback() => fn() 
-        arguments[0]()  
+        callback()      // callback() => fn()
+        arguments[0]()
         // 第0个参数 arguments[0] => fn
         // arguments[0]() => fn() => this.length =>arguments.length
     }
@@ -113,12 +118,16 @@ obj.action(fn,...arr)
     fn.bind(obj, 1, 2); //不会有任何输出
     fn.bind(obj, 1, 2)();//调用后才会有输出
 ```
+
 ### 4. 闭包
-```
+
+```js
 闭包指有权访问另一个函数中的变量的函数，可以通过在一个函数内部返回一个匿名函数来创建闭包。
 （通过了解执行上下文，作用域，作用域链来了解闭包概念，执行上下文是动态的，但作用域链是静态的）
 ```
+
 ### 5.for in, for of, forEach 用法和区别
+
 ```js
 // for in 用于遍历数组或对象
 for (let i in obj) {
@@ -135,7 +144,9 @@ forEach((item, i) => {
   console.log(i); // 下标
 });
 ```
+
 ### 6.浅拷贝和深拷贝
+
 ```javascript
 // 浅拷贝  拷贝的是地址不是数据
 var newObj = {};
@@ -146,21 +157,25 @@ for (let key in obj) {
 // 深拷贝
 function deepClone(obj) {
   let cloneObj = Array.isArray(obj) ? [] : {};
-  if (obj && typeof obj == "object") { //先判断是否为对象
+  if (obj && typeof obj == "object") {
+    //先判断是否为对象
     for (var key in obj) {
-      if (obj.hasOwnProperty(key)) {  //hasOwnProperty 判断对象自身是否具有指定名称的属性
+      if (obj.hasOwnProperty(key)) {
+        //hasOwnProperty 判断对象自身是否具有指定名称的属性
         if (obj[key] && typeof obj[key] == "object") {
           cloneObj[key] = deepClone(obj[key]); // 如果是引用类型，递归拷贝
         } else {
-            cloneObj[key] = obj[key] //基本类型，直接赋值
+          cloneObj[key] = obj[key]; //基本类型，直接赋值
         }
       }
     }
   }
-  return cloneObj
+  return cloneObj;
 }
 ```
+
 ### 7.原型
+
 ```js
 /**
  * prototype: 原型 -> 函数的一个显式原型属性: 对象{}
@@ -189,7 +204,7 @@ console.log(obj.b)  // 222  //先找自身是否有这个属性，再往原型�
  *      }
  *   }
  * }
- * 
+ *
  */
 
 // hasOwnProperty 判断对象自身是否有指定名称的属性
@@ -199,49 +214,55 @@ console.log(obj.b)  // 222  //先找自身是否有这个属性，再往原型�
  'a' in obj   // true
  'b' in obj   // true
  'c' in obj   // true
- 
+
 // Function和Object的特殊性
 Obj.__proto__ === Function.prototype
 Function.__proto__ === Function.prototype  // 底层既定的
 typeof Object  // function
    Object.__proto__ === Function.prototype
-=> Object.__proto__ === Function.__proto__ 
+=> Object.__proto__ === Function.__proto__
 ```
+
 ### 8.继承
+
 ```js
 // 使用class实现继承
 class Person {
-    constructor (name, age){
-        this.name = name
-        this.age = age
-    }
-    introduce(){}
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+  introduce() {}
 }
 class Student extends Person {
-    constructor (name, age, sex){
-        super(name, age)  // 属性通过父类.call(this,参数）或 super（）继承 super和class搭配使用
-        this.sex = sex
-    }
-    intro(){}   
+  constructor(name, age, sex) {
+    super(name, age); // 属性通过父类.call(this,参数）或 super（）继承 super和class搭配使用
+    this.sex = sex;
+  }
+  intro() {}
 }
-let stu = new Student("name", "age")  //实例化Student这个类
-console.log(stu)
-stu.introduce() // 子类通过原型继承了父类的方法
-stu.intro()
+let stu = new Student("name", "age"); //实例化Student这个类
+console.log(stu);
+stu.introduce(); // 子类通过原型继承了父类的方法
+stu.intro();
 ```
-### 9.AMD和CMD
+
+### 9.AMD 和 CMD
+
 插件加载方式
 
 AMD 依赖关系前置，在定义模块时就声明其依赖的模块
 
-CMD 按需加载依赖就近，只有在用到某个模块时再require
+CMD 按需加载依赖就近，只有在用到某个模块时再 require
+
 ### 10.setTimeout, setInterval, requestAnimationFrame
+
 ```js
 setTimeout延时器
 // 只执行一次
 setInterval定时器
 // 定时不断调用函数
-语法： 两者都需要两个参数(表达式, 时间)  //表达式可以是函数，也可以是字符串
+语法： 两者都需要两个参数(表达式, 时间)  //表达式可以是函数，也可以是字符串
 
 setInterval的缺点：
 1.无视代码错误，持续调用
@@ -250,79 +271,84 @@ setInterval的缺点：
 
 => 不建议使用setInterval, 可以使用requestAnimationFrame执行需要异步执行的代码
 ```
+
 ### 11.宏任务/微任务
 
-| 宏任务          | 微任务                         |
-| :------------- | :----------------------------- |
-| setTimeout     | queueMicrotask                 |
-| setInterval    | MutationObserver               |
-| MessageChannel | Promise.[ then/catch/finally ] |
-| I/O，事件队列     | process.nextTick               |
-| setImmediate   |                                |
-| script         |
+| 宏任务                | 微任务                         |
+| :-------------------- | :----------------------------- |
+| setTimeout            | queueMicrotask                 |
+| setInterval           | MutationObserver               |
+| MessageChannel        | Promise.[ then/catch/finally ] |
+| I/O，事件队列         | process.nextTick               |
+| setImmediate          |                                |
+| script                |
 | requestAnimationFrame |
 
 ```js
-function func(num){
-    return function(){
-        console.log(num)
-    }
+function func(num) {
+  return function () {
+    console.log(num);
+  };
 }
-setTimeout(func(1))
+setTimeout(func(1));
 
-async function async3(){
-    await async4()
-    console.log(8)
-}
-
-async function async4(){
-    console.log(5)
+async function async3() {
+  await async4();
+  console.log(8);
 }
 
-async3()
-
-function func2(){
-    console.log(2)
-
-    async function async1(){
-        await async2()
-        console.log(9)
-    }
-
-    async function async2(){
-        console.log(5)
-    }
-
-    async1()
-
-    setTimeout(func(4))
+async function async4() {
+  console.log(5);
 }
 
-setTimeout(func2)
-setTimeout(func(3))
+async3();
 
-new Promise(resolve =>{
-    console.log('Promise')
-    resolve()
+function func2() {
+  console.log(2);
+
+  async function async1() {
+    await async2();
+    console.log(9);
+  }
+
+  async function async2() {
+    console.log(5);
+  }
+
+  async1();
+
+  setTimeout(func(4));
+}
+
+setTimeout(func2);
+setTimeout(func(3));
+
+new Promise((resolve) => {
+  console.log("Promise");
+  resolve();
 })
-    .then(()=> console.log(6))
-    .then(()=> console.log(7))
+  .then(() => console.log(6))
+  .then(() => console.log(7));
 
-console.log(0)
+console.log(0);
 //5, promise, 0, 8, 6, 7, 1, 2, 5, 9, 3, 4
 ```
+
 ### 12.浏览器存储
+
 ```js
 cookie  --  内存小4k，每次请求都会自动携带
-localStorage  -- 除非清理，否则永久存在，5m，需手动设置到请求体 
-sessionStorage  -- 页面关闭就清理，5m，需手动设置到请求体 
+localStorage  -- 除非清理，否则永久存在，5m，需手动设置到请求体
+sessionStorage  -- 页面关闭就清理，5m，需手动设置到请求体
 indexDB  --  除非清理，否则永久存在，大小根据本地硬件大小，需手动设置到请求体
 ```
+
 ### 13.重绘和回流
+
 ```js
-// 重绘： 
-当节点需要改变外观但不改变布局时，称为重绘（eg.改变background-color...） 
-// 回流： 
+// 重绘：
+当节点需要改变外观但不改变布局时，称为重绘（eg.改变background-color...）
+// 回流：
 布局或几何属性发生改变时，称为回流（eg. 改变盒子大小、字体、定位、盒模型、添加删除样式/标签...）
 
 回流必定发生重绘，但重绘不一定引发回流。回流的成本高于重绘，改变父节点的子节点很可能导致父节点的一系列回流
@@ -335,7 +361,9 @@ indexDB  --  除非清理，否则永久存在，大小根据本地硬件大小�
 1.避免频繁操作样式，频繁操作DOM
 2.避免频繁读取会引起回流和重绘的属性
 ```
+
 ### 14.伪数组转真数组
+
 ```js
 Array.from()：将一个类数组对象或可遍历对象转换成一个真数组
 //语法：
@@ -354,7 +382,9 @@ console.log(newArr)  // ['a', 'b', ['c', 'd', 'e']]
 // Array.from还可以接受第二个参数，作用类似于数组的map方法，用来对每个元素进行处理，将处理后的值放入返回的数组
 // Array.from(set, item => item + 1)
 ```
-### 15.throttle节流
+
+### 15.throttle 节流
+
 ```js
 节流： 规定时间间隔内后续动作只执行一次
 // 应用场景
@@ -362,7 +392,7 @@ console.log(newArr)  // ['a', 'b', ['c', 'd', 'e']]
 2.下拉加载
 3.视频播放记录时间
 4.射击游戏的mousedown/keydown事件（单位时间只发射一颗子弹）
-// 代码实现思路： setTimeout 
+// 代码实现思路： setTimeout
 function count(){
     console.log("计数")
 }
@@ -390,9 +420,11 @@ function throttle(fn, delay){
 }
 throttle(count, 2000)
 ```
-### 16.debounce防抖
+
+### 16.debounce 防抖
+
 ```js
-防抖：规定时间内，频繁触发事件，只执行最后一次 
+防抖：规定时间内，频繁触发事件，只执行最后一次
 // 应用场景
 1.搜索框搜索输入
 2.文本编辑器实时保存
@@ -412,20 +444,27 @@ function debounce(fn, delay){
 }
 debounce(count, 2000)
 ```
-### 17.移动端1px
-实际开发过程中， 手机端1px会比实际看上去粗一点
+
+### 17.移动端 1px
+
+实际开发过程中， 手机端 1px 会比实际看上去粗一点
+
 ```css
 /* 最优解决方案： */
-transform: scale(0.5)  
+transform: scale(0.5);
 ```
+
 ### 18.Object.seal() 和 Object.freeze()
+
 ```js
 Object.seal()  密封
 // 封闭一个对象，阻止添加新属性，并将现有属性标为不可配置
 Object.freeze()  冷冻
 // 冻结一个对象，不可被修改、添加、删除，其原型也不能被修改
-```   
+```
+
 ### 19.class
+
 ```js
 //语法：
 class Test(){
@@ -437,22 +476,46 @@ class Test(){
 }
 // class里面的静态方法只能用类调用，不能用实例调用
 ```
+
 ### 20.Promise
+
 ```js
-异步编程
+异步编程;
 ```
+
 ### 21.数组找最大值
+
 ```js
-Math.max(...arr)
+Math.max(...arr);
 ```
+
 ### 22.数组去重
+
 ```js
-new Set(...arr)
+new Set(...arr);
 ```
+
 ### 23.event loop
+
 ```js
 事件循环机制event loop
 浏览器的事件循环分为同步任务和异步任务，所有同步任务都在主线程上执行，形成一个函数调用栈（执行栈）；
 异步任务则先放在任务队列(task queue)中，任务队列分为宏任务macro-task,微任务micro-task；
 ps:执行微任务过程中，又产生了微任务，则会加入整个队列的队尾，在当前周期中执行。
+```
+
+### 24.路由、组件懒加载
+
+```js
+pros: 
+1.首屏组件加载速度更快，解决白屏问题
+2.按需加载
+
+1.vue异步组件：
+component:resolve => require(['组件路径],resolve)
+
+2.ES6的import():
+const 组件名=() => import('组件路径');
+
+3.webpack的require.ensure()
 ```
